@@ -45,11 +45,10 @@ class Game
         @answer.include?('*') ? false : true
     end
 
-    def load_game
-        dir = Dir.glob("games/*.yml")
+    def self.load_game
+        Dir.glob("games/*.yml").each {|n| puts n}
         puts "Please type the name of the game you wich to load:"
-        dir.each {|n| puts n}
-        p ":> "
+        print ":> "
         filename = gets.chomp
         saved_file = File.open(filename, 'r')
         YAML.load(saved_file)
@@ -65,10 +64,7 @@ class Game
         puts "Please enter a file name (no spaces): "
         name = gets.chomp
         Dir.mkdir("games") unless Dir.exists? "games"
-        filename = File.join( "games", "#{name}.yml")
-        File.open(filename, 'w') do |file|
-            file.puts self.to_yaml
-        end
+        File.open(File.join( "games", "#{name}.yml"), 'w') { |file| file.puts self.to_yaml}
     end
 
 end # Game
